@@ -6,6 +6,7 @@ from .serializers import TranslatedTextSerializer
 from googletrans import Translator
 from django.db import IntegrityError
 
+# get method can be used to find a particular record or list all the translation records.
 class TranslationView(APIView):
     def get(self, request):
         source_text = request.query_params.get('text', None)
@@ -23,7 +24,8 @@ class TranslationView(APIView):
             return Response(serializer.data, status=status.HTTP_200_OK)
         else:
             return Response({'Not found'}, status=status.HTTP_404_NOT_FOUND)
-
+            
+# post method is used for creating new translation or if found already in database then fetch from the database.
     def post(self, request):
         source_text = request.data.get('text')
         source_lang = request.data.get('source', 'en')
