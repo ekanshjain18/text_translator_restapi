@@ -13,7 +13,7 @@ class TranslatedTextAPITest(TestCase):
             'source': 'en',
             'target': 'fr'
         }
-        response = self.client.post('enter server link', data)
+        response = self.client.post('http://127.0.0.1:8000/translator/translate/', data)
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         self.assertEqual(TranslatedText.objects.count(), 1)
 
@@ -25,7 +25,7 @@ class TranslatedTextAPITest(TestCase):
             target_lang='es',
             translated_text='Hola'
         )
-        response = self.client.get(f'enter server link?text={translation.source_text}&source={translation.source_lang}&target={translation.target_lang}')
+        response = self.client.get(f'http://127.0.0.1:8000/translator/translate/?text={translation.source_text}&source={translation.source_lang}&target={translation.target_lang}')
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.data['translated_text'], translation.translated_text)
    
@@ -43,7 +43,7 @@ class TranslatedTextAPITest(TestCase):
             target_lang='fr',
             translated_text='Au revoir'
         )
-        response = self.client.get('enter server link')
+        response = self.client.get('http://127.0.0.1:8000/translator/translate/')
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(len(response.data), 2)
         
